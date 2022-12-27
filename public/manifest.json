@@ -1,0 +1,23 @@
+{
+  "../images/plaatje.png": {
+    "file": "plaatje-e76c0355.png",
+    "src": "../images/plaatje.png"
+  },
+  "app.css": {
+    "file": "app-8f05e7a5.css",
+    "src": "app.css"
+  },
+  "editor.js": {
+    "file": "editor-4ed993c7.js",
+    "src": "editor.js",
+    "isEntry": true
+  },
+  "app.js": {
+    "file": "app-00c70ae5.js",
+    "src": "app.js",
+    "isEntry": true,
+    "css": [
+      "app-8f05e7a5.css"
+    ]
+  }
+}

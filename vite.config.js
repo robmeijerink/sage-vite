@@ -1,7 +1,7 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import liveReload from 'vite-plugin-live-reload';
-import copy from 'rollup-plugin-copy'
+// import copy from 'rollup-plugin-copy'
 import path from 'path';
 import fs from 'fs';
 
@@ -52,20 +52,22 @@ export default defineConfig({
     vue(),
     liveReload(`${__dirname}/**/*\.php`),
     splitVendorChunkPlugin(),
-    copy({
-      copyOnce: true,
-      hook: 'writeBundle',
-      targets: [
-          {
-              src: path.resolve(__dirname, `${resourcePath}/images/**/*`),
-              dest: 'public/images'
-          },
-          {
-              src: path.resolve(__dirname, `${resourcePath}/fonts/**/*`),
-              dest: 'public/fonts'
-          }
-      ]
-    }),
+    // copy({
+    //   copyOnce: true,
+    //   hook: 'writeBundle',
+    //   targets: [
+    //       {
+    //           src: path.resolve(__dirname, `${resourcePath}/images/**/*`),
+    //           dest: 'public/images',
+    //           rename: (name, extension, fullPath) => `${name}.[hash].${extension}`,
+    //       },
+    //       {
+    //           src: path.resolve(__dirname, `${resourcePath}/fonts/**/*`),
+    //           dest: 'public/fonts',
+    //           rename: (name, extension, fullPath) => `${name}.${Date.now().slice(0, 5)}.${extension}`,
+    //       }
+    //   ]
+    // }),
   ],
 
   // required for in-browser template compilation

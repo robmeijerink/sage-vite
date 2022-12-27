@@ -42,6 +42,18 @@ class Vite
         wp_enqueue_script("module/$textDomain/$entry");
     }
 
+    public static function getAssetFromManifest(string $asset): string
+    {
+        $manifest = self::getManifest();
+        $assetPath = trim($asset, "'\"");
+
+        if (!empty($manifest["../$assetPath"]['file'])) {
+            return self::getPublicURLBase() . $manifest["../$assetPath"]['file'];
+        }
+
+        return $assetPath;
+    }
+
     private static function themeName(): string
     {
         $uri = get_theme_file_uri();
@@ -81,9 +93,15 @@ class Vite
 
     private static function getManifest(): array
     {
+        static $manifestContent = null;
+
+        if ($manifestContent !== null) {
+            return $manifestContent;
+        }
+
         $content = file_get_contents(get_template_directory() . '/public/manifest.json');
 
-        return json_decode($content, true);
+        return $manifestContent = json_decode($content, true);
     }
 
     private static function assetUrl(string $entry): string

@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Build\Vite;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class ThemeServiceProvider extends ServiceProvider
+class ViteServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -23,6 +25,8 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::directive('asset', function ($expression) {
+            return Vite::getAssetFromManifest($expression);
+        });
     }
 }
