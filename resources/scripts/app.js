@@ -10,7 +10,7 @@ import.meta.glob([
 import '@/styles/app.css'
 
 // Run app
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#btn').addEventListener('click', () => {
 
     console.log('hoihoi 11223222')

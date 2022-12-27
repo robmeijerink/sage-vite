@@ -1,6 +1,14 @@
 {
+  "../images/mapje/teddy.jpg": {
+    "file": "teddy-1aaaa63d.jpg",
+    "src": "../images/mapje/teddy.jpg"
+  },
+  "../images/teddy.jpg": {
+    "file": "teddy-f277686e.jpg",
+    "src": "../images/teddy.jpg"
+  },
   "../images/plaatje.png": {
-    "file": "plaatje-e76c0355.png",
+    "file": "plaatje-2-e76c0355.png",
     "src": "../images/plaatje.png"
   },
   "app.css": {
@@ -19,5 +27,9 @@
     "css": [
       "app-8f05e7a5.css"
     ]
+  },
+  "../images/mapje/plaatje-2.png": {
+    "file": "plaatje-2-e76c0355.png",
+    "src": "../images/plaatje.png"
   }
 }

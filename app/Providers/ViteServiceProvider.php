@@ -25,8 +25,6 @@ class ViteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('asset', function ($expression) {
-            return Vite::getAssetFromManifest($expression);
-        });
+        Blade::directive('asset', fn ($expression) => Vite::getAssetFromManifest($expression));
     }
 }

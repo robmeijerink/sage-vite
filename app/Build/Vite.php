@@ -2,6 +2,8 @@
 
 namespace App\Build;
 
+use Exception;
+
 // Adapted from https://github.com/andrefelipe/vite-php-setup/blob/master/public/helpers.php
 class Vite
 {
@@ -14,6 +16,7 @@ class Vite
 
     public static function isDev(): bool
     {
+        return true;
         $isDev = false;
 
         if (WP_ENV === 'development' && self::viteIsRunning()) {
@@ -21,16 +24,6 @@ class Vite
         }
 
         return $isDev;
-    }
-
-    public static function getTextDomain(): string
-    {
-        return wp_get_theme()->get('TextDomain') ?: 'sage';
-    }
-
-    public static function basePath(): string
-    {
-        return '/app/themes/' . self::themeName() . '/public/';
     }
 
     public static function register(string $entry)
@@ -57,7 +50,12 @@ class Vite
             return self::getPublicURLBase() . $manifest["../$assetPath"]['file'];
         }
 
-        return $assetPath;
+        return self::getViteHost() . '/' . $assetPath;
+    }
+
+    public static function getTextDomain(): string
+    {
+        return wp_get_theme()->get('TextDomain') ?: 'sage';
     }
 
     private static function themeName(): string
@@ -105,9 +103,18 @@ class Vite
             return $manifestContent;
         }
 
-        $content = file_get_contents(get_template_directory() . '/public/manifest.json');
+        try {
+            $content = file_get_contents(get_template_directory() . '/public/manifest.json');
+        } catch (Exception $e) {
+            return [];
+        }
 
         return $manifestContent = json_decode($content, true);
+    }
+
+    private static function basePath(): string
+    {
+        return '/app/themes/' . self::themeName() . '/public/';
     }
 
     private static function assetUrl(string $entry): string
@@ -170,15 +177,14 @@ class Vite
             return $exists;
         }
 
-        $host = self::getViteHost();
-        $handle = curl_init($host);
+        $handle = curl_init(self::getViteHost() . '/app.js');
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($handle, CURLOPT_NOBODY, true);
 
         curl_exec($handle);
         $error = curl_errno($handle);
         curl_close($handle);
-
+dd($error, self::getViteHost(), $exists = !$error);
         return $exists = !$error;
     }
 }
