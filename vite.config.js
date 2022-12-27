@@ -1,10 +1,12 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import liveReload from 'vite-plugin-live-reload';
+import copy from 'rollup-plugin-copy'
 import path from 'path';
 import fs from 'fs';
 
-const rootpath = './resources/scripts';
+const resourcePath = './resources';
+const rootpath = `${resourcePath}/scripts`;
 const themeDirName = path.basename(__dirname);
 
 // Read from files from rootPath
@@ -23,11 +25,11 @@ function getTopLevelFiles() {
 
 export default defineConfig({
   root: rootpath,
-  base: process.env.APP_VITE_ENV === 'dev' ? '/' : `/app/themes/${themeDirName}/dist/`,
+  base: process.env.APP_VITE_ENV === 'dev' ? '/' : `/app/themes/${themeDirName}/public/`,
   build: {
     manifest: true,
     emptyOutDir: true,
-    outDir: path.resolve(__dirname, 'dist'),
+    outDir: path.resolve(__dirname, 'public'),
     assetsDir: '',
     rollupOptions: {
       input: getTopLevelFiles(),
@@ -50,6 +52,20 @@ export default defineConfig({
     vue(),
     liveReload(`${__dirname}/**/*\.php`),
     splitVendorChunkPlugin(),
+    copy({
+      copyOnce: true,
+      hook: 'writeBundle',
+      targets: [
+          {
+              src: path.resolve(__dirname, `${resourcePath}/images/**/*`),
+              dest: 'public/images'
+          },
+          {
+              src: path.resolve(__dirname, `${resourcePath}/fonts/**/*`),
+              dest: 'public/fonts'
+          }
+      ]
+    }),
   ],
 
   // required for in-browser template compilation
