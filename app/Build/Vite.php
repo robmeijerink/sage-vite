@@ -24,7 +24,7 @@ class Vite
 
     public static function basePath(): string
     {
-        return '/app/themes/' . self::themeName() . '/dist/';
+        return '/app/themes/' . self::themeName() . '/public/';
     }
 
     public static function register(string $entry)
@@ -81,7 +81,7 @@ class Vite
 
     private static function getManifest(): array
     {
-        $content = file_get_contents(get_template_directory() . '/dist/manifest.json');
+        $content = file_get_contents(get_template_directory() . '/public/manifest.json');
 
         return json_decode($content, true);
     }
@@ -97,7 +97,7 @@ class Vite
 
     private static function getPublicURLBase()
     {
-        return self::isDev() ? '/dist/' : home_url() . self::basePath();
+        return self::isDev() ? '/public/' : home_url() . self::basePath();
     }
 
     private static function importsUrls(string $entry): array
