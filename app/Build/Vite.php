@@ -14,7 +14,13 @@ class Vite
 
     public static function isDev(): bool
     {
-        return (bool) env('HMR_ENABLED');
+        $isDev = false;
+
+        if (WP_ENV === 'development' && self::viteIsRunning()) {
+            $isDev = true;
+        }
+
+        return $isDev;
     }
 
     public static function getTextDomain(): string
@@ -31,7 +37,7 @@ class Vite
     {
         $textDomain = self::getTextDomain();
         $url = self::isDev()
-            ? 'http://localhost:3000/' . $entry
+            ? self::getViteHost() . '/' . $entry
             : home_url() . self::assetUrl($entry);
 
         if (!$url) {
@@ -142,5 +148,37 @@ class Vite
             }
         }
         return $urls;
+    }
+
+    private static function getViteHost(): string
+    {
+        // Vite host like defined in the vite.config.js.
+        static $host = null;
+
+        if ($host !== null) {
+            return $host;
+        }
+
+        return $host = env('VITE_HOST', 'http://localhost:3000');
+    }
+
+    private static function viteIsRunning(): bool
+    {
+        static $exists = null;
+
+        if ($exists !== null) {
+            return $exists;
+        }
+
+        $host = self::getViteHost();
+        $handle = curl_init($host);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLOPT_NOBODY, true);
+
+        curl_exec($handle);
+        $error = curl_errno($handle);
+        curl_close($handle);
+
+        return $exists = !$error;
     }
 }
