@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-  <strong>WordPress starter theme with Laravel Blade components and templates, Tailwind CSS, and a modern development workflow</strong>
+  <strong>WordPress starter theme with Laravel Blade components and templates, Tailwind CSS, Vite, and a modern development workflow</strong>
 </p>
 
 <p align="center">
@@ -65,19 +65,6 @@ Make sure all dependencies have been installed before moving on:
 
 ## Theme installation
 
-Install Sage using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
-
-```sh
-# @ app/themes/ or wp-content/themes/
-$ composer create-project roots/sage your-theme-name
-```
-
-To install the latest development version of Sage, add `dev-main` to the end of the command:
-
-```sh
-$ composer create-project roots/sage your-theme-name dev-main
-```
-
 Make sure that you have [Acorn installed](https://docs.roots.io/acorn/2.x/installation/).
 
 ## Theme structure
@@ -85,6 +72,7 @@ Make sure that you have [Acorn installed](https://docs.roots.io/acorn/2.x/instal
 ```sh
 themes/your-theme-name/   # → Root of your Sage based theme
 ├── app/                  # → Theme PHP
+│   ├── Build/            # → Vite asset handling PHP files
 │   ├── Providers/        # → Service providers
 │   ├── View/             # → View models
 │   ├── filters.php       # → Theme filters
@@ -109,7 +97,7 @@ themes/your-theme-name/   # → Root of your Sage based theme
 ├── screenshot.png        # → Theme screenshot for WP admin
 ├── style.css             # → Theme meta information
 ├── vendor/               # → Composer packages (never edit)
-└── bud.config.js         # → Bud configuration
+└── vite.config.js        # → Vite configuration
 ```
 
 ## Theme setup
@@ -119,7 +107,6 @@ Edit `app/setup.php` to enable or disable theme features, setup navigation menus
 ## Theme development
 
 - Run `yarn` from the theme directory to install dependencies
-- Update `bud.config.js` with your local dev URL
 
 ### Build commands
 
